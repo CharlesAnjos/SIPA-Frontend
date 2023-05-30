@@ -46,18 +46,23 @@ class _ListaPremiosState extends State<ListaPremios> {
           primarySwatch: Colors.blue,
         ),
         home: Scaffold(
-          appBar:
-              AppBar(title: const Text('Lista de Premios'), actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const FormPremio()),
-                );
-              },
-            ),
-          ]),
+          appBar: AppBar(
+              leading: BackButton(
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              title: const Text('Lista de Premios'),
+              actions: <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const FormPremio()),
+                    );
+                  },
+                ),
+              ]),
           body: Center(
             child: FutureBuilder<List<Premio>>(
               future: fetchPremios(),
