@@ -5,7 +5,7 @@ void main(List<String> args) {
   runApp(MaterialApp(
       title: 'Sistema de Gerenciamento de Premios',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       // initialRoute: '/',
       // routes: {
