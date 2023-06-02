@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ntdw_frontend/pages/autores/lista_autores.dart';
 import 'package:ntdw_frontend/pages/pessoas/lista_pessoas.dart';
 import 'package:ntdw_frontend/pages/premios/lista_premios.dart';
 
@@ -18,13 +19,18 @@ void main(List<String> args) {
           ),
           body: Center(
               child: ListView.builder(
-                  itemCount: 2,
+                  itemCount: 3,
                   itemBuilder: (BuildContext context, int index) {
                     const nomes = [
                       "Cadastro de Premios",
                       "Cadastro de Pessoas",
+                      "Cadastro de Autores",
                     ];
-                    const widgets = [ListaPremios(), ListaPessoas()];
+                    const widgets = [
+                      ListaPremios(),
+                      ListaPessoas(),
+                      ListaAutores()
+                    ];
                     return Container(
                       height: 75,
                       color: Colors.white,
