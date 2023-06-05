@@ -18,6 +18,7 @@ Future<Pessoa> fetchPessoa(id) async {
   }
   final response = await http.get(url);
   if (response.statusCode == 200) {
+    print(json.decode(response.body).runtimeType);
     return Pessoa.fromJson(json.decode(response.body));
   } else {
     throw Exception('Erro ao acessar as pessoas');

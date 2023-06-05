@@ -18,7 +18,7 @@ Future<Autor> fetchAutor(id) async {
   }
   final response = await http.get(url);
   if (response.statusCode == 200) {
-    return Autor.fromJson(json.decode(response.body));
+    return Autor.fromJson(json.decode(response.body)[0]);
   } else {
     throw Exception('Erro ao acessar as autores');
   }
@@ -78,7 +78,7 @@ class DetalhesAutor extends StatelessWidget {
                   },
                 ),
               ]),
-          body: listaAutores(context)),
+          body: getAutor(context)),
     );
   }
 
@@ -120,7 +120,7 @@ class DetalhesAutor extends StatelessWidget {
     );
   }
 
-  Widget listaAutores(BuildContext context) {
+  Widget getAutor(BuildContext context) {
     return FutureBuilder<Autor>(
       future: fetchAutor(autor.id),
       builder: (context, snapshot) {
