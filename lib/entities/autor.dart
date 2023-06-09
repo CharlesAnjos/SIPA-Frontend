@@ -24,7 +24,7 @@ class Autor {
 
   String toJson() {
     var body =
-        '{"id":"$id","pessoa":"${pessoa.id}","registro":"$registro","area":"$area"}';
+        '{"id":"$id","pessoa":${pessoa.toJson()},"registro":"$registro","area":"$area"}';
     return body;
   }
 }

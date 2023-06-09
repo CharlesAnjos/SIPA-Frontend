@@ -48,7 +48,8 @@ class _ListaAutoresState extends State<ListaAutores> {
         home: Scaffold(
           appBar: AppBar(
               leading: BackButton(
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () =>
+                    Navigator.of(context).popUntil((route) => route.isFirst),
               ),
               title: const Text('Lista de Autores'),
               actions: <Widget>[

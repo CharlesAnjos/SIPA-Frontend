@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:ntdw_frontend/pages/autores/lista_autores.dart';
 
 import '../../entities/autor.dart';
+import '../../entities/pessoa.dart';
 
 void saveAutor(context, autor) async {
   String server = "";
@@ -53,14 +54,18 @@ class FormAutor extends StatefulWidget {
 
 class _FormAutorState extends State<FormAutor> {
   final _formKey = GlobalKey<FormState>();
-  final pessoaIdController = TextEditingController();
+  final nomeController = TextEditingController();
+  final cpfController = TextEditingController();
+  final emailController = TextEditingController();
   final registroController = TextEditingController();
   final areaController = TextEditingController();
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    pessoaIdController.dispose();
+    nomeController.dispose();
+    cpfController.dispose();
+    emailController.dispose();
     registroController.dispose();
     areaController.dispose();
     super.dispose();
@@ -74,7 +79,9 @@ class _FormAutorState extends State<FormAutor> {
   @override
   Widget build(BuildContext context) {
     if (widget.autor != null) {
-      //pessoaIdController.text = widget.autor!.pessoaid;
+      nomeController.text = widget.autor!.pessoa.nome;
+      cpfController.text = widget.autor!.pessoa.cpf;
+      emailController.text = widget.autor!.pessoa.email;
       registroController.text = widget.autor!.registro;
       areaController.text = widget.autor!.area;
     }
@@ -85,7 +92,8 @@ class _FormAutorState extends State<FormAutor> {
       home: Scaffold(
         appBar: AppBar(
           leading: BackButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const ListaAutores())),
           ),
           title: Text(appTitle),
         ),
@@ -97,14 +105,42 @@ class _FormAutorState extends State<FormAutor> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextFormField(
-                  controller: pessoaIdController,
+                  controller: nomeController,
                   decoration: const InputDecoration(
-                    hintText: 'ID de Pessoa do Autor',
-                    labelText: 'ID de Pessoa *',
+                    hintText: 'Nome do Autor',
+                    labelText: 'Nome do Autor *',
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'ID de Pessoa é Obrigatório';
+                      return 'Nome do Autor é Obrigatório';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.name,
+                ),
+                TextFormField(
+                  controller: cpfController,
+                  decoration: const InputDecoration(
+                    hintText: 'CPF do Autor',
+                    labelText: 'CPF do Autor *',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'CPF do Autor é Obrigatório';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.name,
+                ),
+                TextFormField(
+                  controller: emailController,
+                  decoration: const InputDecoration(
+                    hintText: 'Endereço de email do Autor',
+                    labelText: 'email do Autor *',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'email do Autor é Obrigatório';
                     }
                     return null;
                   },
@@ -116,7 +152,6 @@ class _FormAutorState extends State<FormAutor> {
                     hintText: 'Registro do Autor',
                     labelText: 'Registro *',
                   ),
-                  //initialValue: widget.autor?.id == null ? 'eita' : null,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Registro é Obrigatório';
@@ -143,13 +178,20 @@ class _FormAutorState extends State<FormAutor> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // Autor autor = Autor(
-                        //   id: widget.autor != null ? widget.autor!.id : "",
-                        //   //pessoaid: pessoaIdController.text,
-                        //   registro: registroController.text,
-                        //   area: areaController.text,
-                        // );
-                        // saveAutor(context, autor);
+                        Pessoa pessoa = Pessoa(
+                            id: widget.autor != null
+                                ? widget.autor!.pessoa.id
+                                : "",
+                            nome: nomeController.text,
+                            cpf: cpfController.text,
+                            email: emailController.text);
+                        Autor autor = Autor(
+                          id: widget.autor != null ? widget.autor!.id : "",
+                          pessoa: pessoa,
+                          registro: registroController.text,
+                          area: areaController.text,
+                        );
+                        saveAutor(context, autor);
                       }
                     },
                     child: const Text('Submit'),

@@ -55,7 +55,8 @@ class DetalhesAutor extends StatelessWidget {
       home: Scaffold(
           appBar: AppBar(
               leading: BackButton(
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const ListaAutores())),
               ),
               title: Text(autor.pessoa.nome),
               actions: <Widget>[
@@ -129,7 +130,8 @@ class DetalhesAutor extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('ID Pessoa: ${snapshot.data!.pessoa.id}'),
+              Text('Nome: ${snapshot.data!.pessoa.nome}'),
+              Text('CPF: ${snapshot.data!.pessoa.cpf}'),
               Text('Registro Autor: ${snapshot.data!.registro}'),
               Text('Área de atuação: ${snapshot.data!.area}'),
             ]),

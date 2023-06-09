@@ -19,17 +19,17 @@ void main(List<String> args) {
           ),
           body: Center(
               child: ListView.builder(
-                  itemCount: 3,
+                  itemCount: 2,
                   itemBuilder: (BuildContext context, int index) {
                     const nomes = [
                       "Cadastro de Premios",
-                      "Cadastro de Pessoas",
                       "Cadastro de Autores",
+                      //"Cadastro de Avaliadores",
                     ];
                     const widgets = [
                       ListaPremios(),
-                      ListaPessoas(),
-                      ListaAutores()
+                      ListaAutores(),
+                      //ListaAvaliadores()
                     ];
                     return Container(
                       height: 75,
