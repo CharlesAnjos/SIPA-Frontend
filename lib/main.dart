@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:ntdw_frontend/pages/autores/lista_autores.dart';
-import 'package:ntdw_frontend/pages/pessoas/lista_pessoas.dart';
+import 'package:ntdw_frontend/pages/avaliadores/lista_avaliadores.dart';
 import 'package:ntdw_frontend/pages/premios/lista_premios.dart';
 
 void main(List<String> args) {
+  const nomes = [
+    "Cadastro de Premios",
+    "Cadastro de Autores",
+    "Cadastro de Avaliadores",
+    //"Cadastro de Avaliadores",
+  ];
+  const widgets = [ListaPremios(), ListaAutores(), ListaAvaliadores()];
   runApp(MaterialApp(
       title: 'Sistema de Gerenciamento de Premios',
       theme: ThemeData(
@@ -19,18 +26,8 @@ void main(List<String> args) {
           ),
           body: Center(
               child: ListView.builder(
-                  itemCount: 2,
+                  itemCount: nomes.length,
                   itemBuilder: (BuildContext context, int index) {
-                    const nomes = [
-                      "Cadastro de Premios",
-                      "Cadastro de Autores",
-                      //"Cadastro de Avaliadores",
-                    ];
-                    const widgets = [
-                      ListaPremios(),
-                      ListaAutores(),
-                      //ListaAvaliadores()
-                    ];
                     return Container(
                       height: 75,
                       color: Colors.white,
