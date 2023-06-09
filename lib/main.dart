@@ -5,20 +5,17 @@ import 'package:ntdw_frontend/pages/premios/lista_premios.dart';
 
 void main(List<String> args) {
   const nomes = [
-    "Cadastro de Premios",
-    "Cadastro de Autores",
-    "Cadastro de Avaliadores",
+    "Premios",
+    "Autores",
+    "Avaliadores",
   ];
+  const icones = ["🏆", "🧑‍🎓", "🧑‍🏫"];
   const widgets = [ListaPremios(), ListaAutores(), ListaAvaliadores()];
   runApp(MaterialApp(
       title: 'Sistema de Gerenciamento de Premios',
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      // initialRoute: '/',
-      // routes: {
-      //   '/': (context) => const ListaPremios(),
-      // },
       home: Scaffold(
           appBar: AppBar(
             title: const Text('Sistema de Gerenciamento de Premios'),
@@ -46,6 +43,8 @@ void main(List<String> args) {
                           child: SizedBox(
                             height: 100,
                             child: ListTile(
+                              leading: Text(icones[index],
+                                  style: TextStyle(fontSize: 40)),
                               title: Text(nomes[index]),
                             ),
                           ),
