@@ -8,7 +8,6 @@ void main(List<String> args) {
     "Cadastro de Premios",
     "Cadastro de Autores",
     "Cadastro de Avaliadores",
-    //"Cadastro de Avaliadores",
   ];
   const widgets = [ListaPremios(), ListaAutores(), ListaAvaliadores()];
   runApp(MaterialApp(
