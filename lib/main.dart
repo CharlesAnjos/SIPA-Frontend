@@ -44,7 +44,7 @@ void main(List<String> args) {
                             height: 100,
                             child: ListTile(
                               leading: Text(icones[index],
-                                  style: TextStyle(fontSize: 40)),
+                                  style: const TextStyle(fontSize: 40)),
                               title: Text(nomes[index]),
                             ),
                           ),
