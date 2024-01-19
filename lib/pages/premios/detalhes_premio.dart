@@ -5,7 +5,9 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:ntdw_frontend/entities/premio.dart';
 import 'package:http/http.dart' as http;
+import 'package:ntdw_frontend/entities/projeto.dart';
 import 'package:ntdw_frontend/pages/premios/form_premio.dart';
+import 'package:ntdw_frontend/pages/projetos/form_projeto.dart';
 
 import 'lista_premios.dart';
 
@@ -40,6 +42,22 @@ void deletePremio(context, id) async {
   }
 }
 
+Future<List<Projeto>> fetchProjetosFromPremio(projetoid) async {
+  Uri url;
+  if (Platform.isAndroid) {
+    url = Uri.parse('http://10.0.2.2:3000/projeto/listar/$projetoid');
+  } else {
+    url = Uri.parse('http://10.0.2.2:3000/projeto/listar/$projetoid');
+  }
+  final response = await http.get(url);
+  if (response.statusCode == 200) {
+    List jsonResponse = json.decode(response.body);
+    return jsonResponse.map((projdata) => Projeto.fromJson(projdata)).toList();
+  } else {
+    throw Exception('Erro ao acessar os projetos');
+  }
+}
+
 class DetalhesPremio extends StatelessWidget {
   const DetalhesPremio({super.key, required this.premio});
 
@@ -48,14 +66,21 @@ class DetalhesPremio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Detalhes do Premio',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
+        title: 'Detalhes do Premio',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Scaffold(
           appBar: AppBar(
               leading: BackButton(
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ListaPremios(),
+                    ),
+                  );
+                },
               ),
               title: Text(premio.nome.toString()),
               actions: <Widget>[
@@ -78,8 +103,23 @@ class DetalhesPremio extends StatelessWidget {
                   },
                 ),
               ]),
-          body: listaPremios(context)),
-    );
+          body: Column(
+            children: [
+              dadosPremio(context),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FormProjeto(premio: premio),
+                      ),
+                    );
+                  },
+                  child: const Text("Adicionar Projeto")),
+              listaProjetos(context),
+            ],
+          ),
+        ));
   }
 
   Future<void> _showMyDialog(context) async {
@@ -89,9 +129,9 @@ class DetalhesPremio extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Apagando Premio'),
-          content: SingleChildScrollView(
+          content: const SingleChildScrollView(
             child: ListBody(
-              children: const <Widget>[
+              children: <Widget>[
                 Text("Este este prêmio será apagado."),
                 Text(
                     "ESTA AÇÃO É IRREVERSÍVEL, TODOS OS DADOS SERÃO APAGADOS!"),
@@ -120,7 +160,7 @@ class DetalhesPremio extends StatelessWidget {
     );
   }
 
-  Widget listaPremios(BuildContext context) {
+  Widget dadosPremio(BuildContext context) {
     return FutureBuilder<Premio>(
       future: fetchPremio(premio.id),
       builder: (context, snapshot) {
@@ -139,6 +179,55 @@ class DetalhesPremio extends StatelessWidget {
         } else if (snapshot.hasError) {
           return Text('${snapshot.error}');
         }
+        // By default, show a loading spinner.
+        return const CircularProgressIndicator();
+      },
+    );
+  }
+
+  Widget listaProjetos(BuildContext context) {
+    return FutureBuilder<List<Projeto>>(
+      future: fetchProjetosFromPremio(premio.id),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+              shrinkWrap: true,
+              itemCount: snapshot.data!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  height: 75,
+                  color: Colors.white,
+                  child: Center(
+                      //child: Text(snapshot.data![index].nome),
+                      child: Card(
+                    clipBehavior: Clip.hardEdge,
+                    child: InkWell(
+                      splashColor: Colors.blue.withAlpha(30),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FormProjeto(
+                                premio: snapshot.data![index].premio,
+                                projeto: snapshot.data![index]),
+                          ),
+                        );
+                      },
+                      child: SizedBox(
+                        height: 100,
+                        child: ListTile(
+                          title: Text(snapshot.data![index].titulo),
+                          subtitle: Text(snapshot.data![index].resumo),
+                        ),
+                      ),
+                    ),
+                  )),
+                );
+              });
+        } else if (snapshot.hasError) {
+          return Text('${snapshot.error}');
+        }
+
         // By default, show a loading spinner.
         return const CircularProgressIndicator();
       },

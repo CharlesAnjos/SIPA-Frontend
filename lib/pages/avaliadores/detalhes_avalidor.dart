@@ -91,9 +91,9 @@ class DetalhesAvaliador extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Apagando Avaliador'),
-          content: SingleChildScrollView(
+          content: const SingleChildScrollView(
             child: ListBody(
-              children: const <Widget>[
+              children: <Widget>[
                 Text("Este avaliador será apagada."),
                 Text(
                     "ESTA AÇÃO É IRREVERSÍVEL, TODOS OS DADOS SERÃO APAGADOS!"),

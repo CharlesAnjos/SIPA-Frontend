@@ -18,7 +18,6 @@ Future<Pessoa> fetchPessoa(id) async {
   }
   final response = await http.get(url);
   if (response.statusCode == 200) {
-    print(json.decode(response.body).runtimeType);
     return Pessoa.fromJson(json.decode(response.body));
   } else {
     throw Exception('Erro ao acessar as pessoas');
@@ -90,9 +89,9 @@ class DetalhesPessoa extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Apagando Pessoa'),
-          content: SingleChildScrollView(
+          content: const SingleChildScrollView(
             child: ListBody(
-              children: const <Widget>[
+              children: <Widget>[
                 Text("Este pessoa será apagada."),
                 Text(
                     "ESTA AÇÃO É IRREVERSÍVEL, TODOS OS DADOS SERÃO APAGADOS!"),
